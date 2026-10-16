@@ -51,27 +51,34 @@ transactions and binds each result atomically to its operation context.
 
 ## Source map
 
-- `rtl/pkg/pcie_gen12_phy_pkg.sv`: shared encodings, structures and pure helpers.
-- `rtl/pkg/pcie_gen12_phy_timing_pkg.sv`: all timing/count/capacity policy.
-- `rtl/gt/gty_behavioral_model.sv`: future-simulation digital GT contract model.
-- `rtl/gt/pcie_gty_adapter_x1.sv`: behavioral/synthesis dual path and normalized GT
+- `rtl/**/*.v`: Verilog-2005 implementation; shared encodings, packed records,
+  timing/count/capacity constants and pure helpers are module-local. RTL has no
+  SystemVerilog package dependency.
+- `tb/tb_common/pcie_gen12_phy_pkg.sv` and
+  `tb/tb_common/pcie_gen12_phy_timing_pkg.sv`: unchanged SystemVerilog compatibility
+  packages for the existing testbenches, excluded from synthesis.
+- `rtl/gt/gty_behavioral_model.v`: simulation-only digital GT contract model.
+- `rtl/gt/pcie_gty_adapter_x1.v`: behavioral/synthesis dual path and normalized GT
   boundary.
 - `rtl/phy_*`: packet CDC, framing, scrambling, ordered sets, SKP accounting,
   clock/reset/rate control, timers, LTSSM, and status/error logic.
-- `rtl/pcie_gen12_phy_x1_rp.sv`: exact SPEC 4.1–4.5 external boundary and all CDC
+- `rtl/pcie_gen12_phy_x1_rp.v`: exact SPEC 4.1–4.5 external boundary and all CDC
   integration.
 - `tb/golden`: independent scrambler, 8b/10b and ordered-set reference models.
-- `tb/tb_common` and `tb/tb_PHY_V_001` … `tb/tb_PHY_V_015`: future self-checking
+- `tb/tb_common` and `tb/tb_PHY_V_001` … `tb/tb_PHY_V_015`: self-checking
   verification sources.
 - `constr`, `scripts`: board template, source ordering, project creation and xsim
   launch inputs.
 
 ## Compilation order
 
-Use `scripts/filelist.f`. The required order is packages, behavioral GT model,
-GT adapter, symbol/link/control modules, top, golden models, common verification
+Use `scripts/filelist.f`: 14 Verilog RTL files and 30 SystemVerilog verification
+files. The required order is TB compatibility packages, behavioral GT model, GT
+adapter, symbol/link/control modules, top, golden models, common verification
 sources, and finally the selected testbench top. Do not allow a simulator to infer
-package ordering from directory enumeration.
+package ordering from directory enumeration. `scripts/create_project.tcl` audits
+all `.v`/`.sv` sources, requires `.v` under `rtl/`, sets RTL file type to `Verilog`
+and verification file type to `SystemVerilog`, and keeps TB packages in `sim_1`.
 
 ## Future Vivado simulation
 
@@ -102,11 +109,18 @@ E3 board portion unrun.
 
 ## Present evidence and limits
 
-The task explicitly prohibited local simulation, synthesis, implementation, and GT
-Wizard generation, so none is claimed here. On 2026-09-02, all 44 SystemVerilog
-sources in `scripts/filelist.f` were parsed and semantically elaborated with pyslang
-11.0 under `GT_BEHAV_MODEL`: zero parse errors and zero error-severity diagnostics.
-Non-error lint diagnostics remain, so this static result is not a simulation,
-Vivado compile, timing, CDC-report, synthesis, or hardware pass. Integration
-assumptions and the precise `PHY-V-015` boundary are recorded in
-`docs/deviations.md`.
+On 2026-10-16, the RTL was converted to Verilog-2005 and the original SV testbench
+sources were retained. Strict RTL compilation and mixed-language elaboration pass
+in all four `GT_BEHAV_MODEL` / `SYNTHESIS` configurations, apart from the same three
+unavailable vendor primitives in the native GT path. Top-level ports and the
+known-valued parameters exercised by the existing testbenches match the SV baseline.
+
+All 15 original and converted testbench tops compile and have identical observed
+Verilator results: seven pass and eight fail at the same first checks and times.
+These pre-existing failures are retained to keep this change limited to the RTL
+language conversion. This is regression evidence, not a full equivalence proof or
+a passing protocol suite. `PHY-V-015` covers pre-board E1 only; E3 remains `NOT_RUN`.
+No Vivado/XSim, synthesis, implementation, timing/CDC closure or hardware pass is
+claimed. See [the migration record](verilog-migration.md) for commands, individual
+results and language compatibility details, and [deviations](deviations.md) for
+the remaining integration assumptions.

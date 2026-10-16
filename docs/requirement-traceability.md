@@ -2,8 +2,9 @@
 
 This table is the implementation map for every frozen `PHY-CAP`, `PHY-DP`,
 `PHY-OS`, `PHY-LT`, `PHY-GT`, `PHY-RST`, `PHY-ERR`, `PHY-DBG`, `PHY-INV`, and
-`PHY-V` identifier. “TB” means future verification intent; no local simulation
-result is claimed.
+`PHY-V` identifier. A TB reference identifies verification intent, not a passing
+requirement. The 2026-10-16 original/converted simulation results, including eight
+pre-existing failures, are recorded separately in `docs/verilog-migration.md`.
 
 ## Cross-cutting invariants
 
@@ -76,7 +77,7 @@ result is claimed.
 | PHY-GT-005 | Rate FSM exposes request/busy/done/fail; current rate commits after clock/reset/buffer reinitialization | `tb_PHY_V_009` |
 | PHY-GT-006 | De-emphasis, swing, margin, compliance and diagnostic loopback controls terminate at adapter | `tb_PHY_V_005`, `tb_PHY_V_012` |
 | PHY-GT-007 | Adapter source-domain context captures native PHYSTATUS/RXSTATUS before event transfer | `tb_PHY_V_002`, `tb_PHY_V_009` |
-| PHY-GT-008 | Repository scan confines GT primitives/Wizard-native wiring to `rtl/gt/pcie_gty_adapter_x1.sv` | Static source-boundary audit |
+| PHY-GT-008 | Repository scan confines GT primitives/Wizard-native wiring to `rtl/gt/pcie_gty_adapter_x1.v` | Static source-boundary audit |
 | PHY-GT-009 | All electrical/CDR/equalizer attributes are Wizard-owned items in `gt_wizard_notes.md`; no Gen3 Equalization state exists | Future Wizard review and Vivado DRC |
 
 ## Reset and CDC

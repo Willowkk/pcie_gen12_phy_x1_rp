@@ -66,6 +66,16 @@ if {[llength $source_filesets] != 1 || [llength $sim_filesets] != 1} {
 set source_fileset [lindex $source_filesets 0]
 set sim_fileset    [lindex $sim_filesets 0]
 
+# A project created before the RTL language conversion must be recreated rather
+# than silently compiling its stale .sv sources as SystemVerilog.
+foreach source_object [get_files -quiet -of_objects $source_fileset] {
+  set source_name [get_property NAME $source_object]
+  if {![string equal -nocase [file extension $source_name] ".v"] ||
+      [get_property FILE_TYPE $source_object] ne "Verilog"} {
+    error "RTL source must use Verilog file type and .v extension: $source_name; rerun scripts/create_project.tcl."
+  }
+}
+
 set all_tests {}
 for {set test_number 1} {$test_number <= 15} {incr test_number} {
   lappend all_tests [format "PHY_V_%03d" $test_number]
@@ -111,6 +121,16 @@ set_property verilog_define $sim_defines $sim_fileset
 set fixture_path [file normalize \
   [file join $root_dir tb tb_PHY_V_008 tb_PHY_V_008.sv]]
 require_project_file_once $sim_fileset $fixture_path
+set package_path [file normalize \
+  [file join $root_dir tb tb_common pcie_gen12_phy_pkg.sv]]
+set timing_package_path [file normalize \
+  [file join $root_dir tb tb_common pcie_gen12_phy_timing_pkg.sv]]
+foreach verification_package [list $package_path $timing_package_path] {
+  require_project_file_once $sim_fileset $verification_package
+  if {[llength [get_files -quiet -of_objects $source_fileset $verification_package]] != 0} {
+    error "Verification compatibility package must not be a synthesis source: $verification_package"
+  }
+}
 
 # Check all 15 tops up front, before any simulator process is launched.
 foreach test_id $all_tests {
@@ -124,6 +144,10 @@ foreach test_id $tests {
   puts "=== Elaborating $top_name ==="
   set_property top $top_name $sim_fileset
   update_compile_order -fileset sim_1
+  require_sim_compile_order $package_path $test_path
+  if {[lsearch -exact {PHY_V_006 PHY_V_007 PHY_V_008 PHY_V_009 PHY_V_012} $test_id] >= 0} {
+    require_sim_compile_order $timing_package_path $test_path
+  }
 
   # PHY-V-009..012 instantiate the fixture declared by PHY-V-008.
   if {[lsearch -exact {PHY_V_009 PHY_V_010 PHY_V_011 PHY_V_012} $test_id] >= 0} {

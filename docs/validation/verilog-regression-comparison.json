@@ -1,0 +1,318 @@
+{
+  "date": "2026-10-16",
+  "baseline": "156401f995a20db097c4df4cd8c8c4ff0bf0c1a2",
+  "scope": "Observed differential regressions; no formal equivalence or hardware validation",
+  "verilator_distribution": "5.48.0",
+  "verilator_build": "rev vUNKNOWN-built20260516-4e853d8",
+  "compile_flags": [
+    "--binary",
+    "--timing",
+    "--assert",
+    "-Wno-fatal",
+    "-DGT_BEHAV_MODEL",
+    "-f",
+    "scripts/filelist.f",
+    "-j",
+    "2"
+  ],
+  "rtl_sha256_lf": {
+    "rtl/gt/gty_behavioral_model.v": "9146f47c2b09dde4e3ddc4c387d078bc2d48bddb0d701f5f0de812933d8dd6e0",
+    "rtl/gt/pcie_gty_adapter_x1.v": "819049e99b747b65ded635bd5d9c855913864a08b385fed521d395f378451a3f",
+    "rtl/pcie_gen12_phy_x1_rp.v": "64c1ed30e5f1dbeaeeecec67ef2449a2c0462ba69ee7e277bd438589b70ba765",
+    "rtl/phy_clock_reset_rate_ctrl.v": "842ce1c1241c968dafddc299fc98a0e0ed2543b58d1dbfea8d4a7354c0305f40",
+    "rtl/phy_ltssm_ctrl.v": "fca7711402cdec0981334a3a99610ff4be9fa0a29a25956e109766d1509591b1",
+    "rtl/phy_ordered_set.v": "47cbde8e8768429b654b64e0e856c8c79be26a5fa192a0db4452b998fc416dc2",
+    "rtl/phy_rx_classifier_deframer.v": "25e264e71485cba6530917651c88140342575333b602b84bf1d1f1c79abe5147",
+    "rtl/phy_rx_packet_buffer_cdc.v": "8fa2b1e1ba4b2517489eb37747ee430839f0410ac7fa7372440691895c97354f",
+    "rtl/phy_scrambler_descrambler.v": "7840ccb75c310b533e180c56fd0288ae0d0e5cbd723999baa3271cb77a614c4d",
+    "rtl/phy_skp_clock_comp.v": "89b5678127d538ac58df6f7ce8061d3e5df6817bf617dc178f0a7621ac71e9d7",
+    "rtl/phy_status_error.v": "23ce9d47a5accaf448121a638d95995faf9176ec6d59a2e5a4400039d2523593",
+    "rtl/phy_timer_bank.v": "28651db59c617a60949912955a2ebdf9a587e62c7b7b0d4f801d18f5a781655a",
+    "rtl/phy_tx_framer_scheduler.v": "15916fd125c144baed715120ba6b2e803a9024ad0a1358cc050c98f793cf6bc7",
+    "rtl/phy_tx_packet_buffer_cdc.v": "2a5f89b271148cd3ba051ba80d44bed3037763c4e9405e38dcb502811622d149"
+  },
+  "existing_tb_content_unchanged": true,
+  "regressions": [
+    {
+      "id": "001",
+      "original_compile_exit": 0,
+      "converted_compile_exit": 0,
+      "original_run_exit": 1,
+      "converted_run_exit": 1,
+      "identical_signature": true,
+      "signature": [
+        "[TB_BEGIN] PHY-V-001",
+        "[842000] %Error: phy_assertions.sv:44: Assertion failed in tb_PHY_V_001.safety: 'assert' failed.",
+        "%Error: tb/tb_common/phy_assertions.sv:44: Verilog $stop"
+      ]
+    },
+    {
+      "id": "002",
+      "original_compile_exit": 0,
+      "converted_compile_exit": 0,
+      "original_run_exit": 0,
+      "converted_run_exit": 0,
+      "identical_signature": true,
+      "signature": [
+        "[TB_BEGIN] PHY-V-002",
+        "[TB_RESULT] PHY-V-002 PASS checks=50 scenarios=000000000000000f"
+      ]
+    },
+    {
+      "id": "003",
+      "original_compile_exit": 0,
+      "converted_compile_exit": 0,
+      "original_run_exit": 0,
+      "converted_run_exit": 0,
+      "identical_signature": true,
+      "signature": [
+        "[TB_BEGIN] PHY-V-003",
+        "[TB_RESULT] PHY-V-003 PASS checks=21 scenarios=00000000000000ff"
+      ]
+    },
+    {
+      "id": "004",
+      "original_compile_exit": 0,
+      "converted_compile_exit": 0,
+      "original_run_exit": 1,
+      "converted_run_exit": 1,
+      "identical_signature": true,
+      "signature": [
+        "[TB_BEGIN] PHY-V-004",
+        "[20000] %Error: phy_tb_pkg.sv:45: Assertion failed in phy_tb_pkg.tb_check: [TB_CHECK_FAIL] PHY-V-004: TX reset seed actual=1483 expected=ffff",
+        "%Error: tb/tb_common/phy_tb_pkg.sv:45: Verilog $stop"
+      ]
+    },
+    {
+      "id": "005",
+      "original_compile_exit": 0,
+      "converted_compile_exit": 0,
+      "original_run_exit": 0,
+      "converted_run_exit": 0,
+      "identical_signature": true,
+      "signature": [
+        "[TB_BEGIN] PHY-V-005",
+        "[TB_RESULT] PHY-V-005 PASS checks=4269 scenarios=000000000000003f"
+      ]
+    },
+    {
+      "id": "006",
+      "original_compile_exit": 0,
+      "converted_compile_exit": 0,
+      "original_run_exit": 1,
+      "converted_run_exit": 1,
+      "identical_signature": true,
+      "signature": [
+        "[TB_BEGIN] PHY-V-006",
+        "[240000] %Error: phy_tb_pkg.sv:45: Assertion failed in phy_tb_pkg.tb_check: [TB_CHECK_FAIL] PHY-V-006: EIEOS appears at the required 32-TS1 cadence actual=f7bc expected=fcbc",
+        "%Error: tb/tb_common/phy_tb_pkg.sv:45: Verilog $stop"
+      ]
+    },
+    {
+      "id": "007",
+      "original_compile_exit": 0,
+      "converted_compile_exit": 0,
+      "original_run_exit": 1,
+      "converted_run_exit": 1,
+      "identical_signature": true,
+      "signature": [
+        "[TB_BEGIN] PHY-V-007",
+        "[2968000] %Error: phy_tb_pkg.sv:45: Assertion failed in phy_tb_pkg.tb_check: [TB_CHECK_FAIL] PHY-V-007: due waits for a legal packet boundary actual=1 expected=0",
+        "%Error: tb/tb_common/phy_tb_pkg.sv:45: Verilog $stop"
+      ]
+    },
+    {
+      "id": "008",
+      "original_compile_exit": 0,
+      "converted_compile_exit": 0,
+      "original_run_exit": 0,
+      "converted_run_exit": 0,
+      "identical_signature": true,
+      "signature": [
+        "[TB_BEGIN] PHY-V-008",
+        "[TB_RESULT] PHY-V-008 PASS checks=39 scenarios=00000000000000ff"
+      ]
+    },
+    {
+      "id": "009",
+      "original_compile_exit": 0,
+      "converted_compile_exit": 0,
+      "original_run_exit": 1,
+      "converted_run_exit": 1,
+      "identical_signature": true,
+      "signature": [
+        "[TB_BEGIN] PHY-V-009",
+        "[425000] %Error: phy_tb_pkg.sv:45: Assertion failed in phy_tb_pkg.tb_check: [TB_CHECK_FAIL] PHY-V-009: current rate changed before normalized CRR completion",
+        "%Error: tb/tb_common/phy_tb_pkg.sv:45: Verilog $stop"
+      ]
+    },
+    {
+      "id": "010",
+      "original_compile_exit": 0,
+      "converted_compile_exit": 0,
+      "original_run_exit": 0,
+      "converted_run_exit": 0,
+      "identical_signature": true,
+      "signature": [
+        "[TB_BEGIN] PHY-V-010",
+        "[TB_RESULT] PHY-V-010 PASS checks=82 scenarios=000000000000003f"
+      ]
+    },
+    {
+      "id": "011",
+      "original_compile_exit": 0,
+      "converted_compile_exit": 0,
+      "original_run_exit": 1,
+      "converted_run_exit": 1,
+      "identical_signature": true,
+      "signature": [
+        "[TB_BEGIN] PHY-V-011",
+        "[1035000] %Error: phy_tb_pkg.sv:45: Assertion failed in phy_tb_pkg.tb_check: [TB_CHECK_FAIL] PHY-V-011: PM request accepted within bound",
+        "%Error: tb/tb_common/phy_tb_pkg.sv:45: Verilog $stop"
+      ]
+    },
+    {
+      "id": "012",
+      "original_compile_exit": 0,
+      "converted_compile_exit": 0,
+      "original_run_exit": 1,
+      "converted_run_exit": 1,
+      "identical_signature": true,
+      "signature": [
+        "[TB_BEGIN] PHY-V-012",
+        "[1665000] %Error: phy_tb_pkg.sv:45: Assertion failed in phy_tb_pkg.tb_check: [TB_CHECK_FAIL] PHY-V-012: management request accepted within bound",
+        "%Error: tb/tb_common/phy_tb_pkg.sv:45: Verilog $stop"
+      ]
+    },
+    {
+      "id": "013",
+      "original_compile_exit": 0,
+      "converted_compile_exit": 0,
+      "original_run_exit": 1,
+      "converted_run_exit": 1,
+      "identical_signature": true,
+      "signature": [
+        "[TB_BEGIN] PHY-V-013",
+        "[356000] %Error: phy_tb_pkg.sv:45: Assertion failed in phy_tb_pkg.tb_check: [TB_CHECK_FAIL] PHY-V-013: committed TX beat became visible",
+        "%Error: tb/tb_common/phy_tb_pkg.sv:45: Verilog $stop"
+      ]
+    },
+    {
+      "id": "014",
+      "original_compile_exit": 0,
+      "converted_compile_exit": 0,
+      "original_run_exit": 0,
+      "converted_run_exit": 0,
+      "identical_signature": true,
+      "signature": [
+        "[TB_BEGIN] PHY-V-014",
+        "[TB_RESULT] PHY-V-014 PASS checks=23 scenarios=00000000000000ff"
+      ]
+    },
+    {
+      "id": "015",
+      "original_compile_exit": 0,
+      "converted_compile_exit": 0,
+      "original_run_exit": 0,
+      "converted_run_exit": 0,
+      "identical_signature": true,
+      "signature": [
+        "[TB_BEGIN] PHY-V-015_PREBOARD_E1",
+        "[TB_RESULT] PHY-V-015_PREBOARD_E1 PASS checks=12"
+      ]
+    }
+  ],
+  "additional_checks": {
+    "onehot_compile": {
+      "exit": 0,
+      "output": "",
+      "command": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "onehot0_four_state",
+        "-o",
+        "/root/pcie-verilog-validation/onehot0-test.vvp",
+        "/root/pcie-verilog-validation/onehot0-four-state.sv"
+      ]
+    },
+    "onehot_run": {
+      "exit": 0,
+      "output": "ONEHOT0_FOUR_STATE_PASS checks=64\n",
+      "command": [
+        "vvp",
+        "-N",
+        "/root/pcie-verilog-validation/onehot0-test.vvp"
+      ]
+    },
+    "depth_compile": {
+      "exit": 0,
+      "output": "",
+      "command": [
+        "iverilog",
+        "-g2001",
+        "-s",
+        "guard_depth",
+        "-o",
+        "/root/pcie-verilog-validation/guard-depth.vvp",
+        "/root/pcie-verilog-validation/guard-depth.v",
+        "rtl/gt/gty_behavioral_model.v"
+      ]
+    },
+    "depth_run": {
+      "exit": 1,
+      "output": "Fatal [0] rtl/gt/gty_behavioral_model.sv:156:7 - gty_behavioral_model.validate_model_parameters.<unnamed_block>\n msg: ELASTIC_DEPTH_PAIRS must hold at least one two-pair SKP OS\n",
+      "command": [
+        "vvp",
+        "-N",
+        "/root/pcie-verilog-validation/guard-depth.vvp"
+      ]
+    },
+    "timing_compile": {
+      "exit": 0,
+      "output": "",
+      "command": [
+        "iverilog",
+        "-g2001",
+        "-s",
+        "guard_timing",
+        "-o",
+        "/root/pcie-verilog-validation/guard-timing.vvp",
+        "/root/pcie-verilog-validation/guard-timing.v",
+        "rtl/gt/gty_behavioral_model.v"
+      ]
+    },
+    "timing_run": {
+      "exit": 1,
+      "output": "Fatal [0] rtl/gt/gty_behavioral_model.sv:164:7 - gty_behavioral_model.validate_model_parameters.<unnamed_block>\n msg: GT behavioral-model timing parameters must be nonzero\n",
+      "command": [
+        "vvp",
+        "-N",
+        "/root/pcie-verilog-validation/guard-timing.vvp"
+      ]
+    },
+    "mode_compile": {
+      "exit": 0,
+      "output": "",
+      "command": [
+        "iverilog",
+        "-g2001",
+        "-s",
+        "guard_mode",
+        "-o",
+        "/root/pcie-verilog-validation/guard-mode.vvp",
+        "/root/pcie-verilog-validation/guard-mode.v",
+        "rtl/gt/gty_behavioral_model.v"
+      ]
+    },
+    "mode_run": {
+      "exit": 1,
+      "output": "Fatal [0] rtl/gt/gty_behavioral_model.sv:166:7 - gty_behavioral_model.validate_model_parameters.<unnamed_block>\n msg: ELASTIC_CORRECTION_MODE must be 0..3\n",
+      "command": [
+        "vvp",
+        "-N",
+        "/root/pcie-verilog-validation/guard-mode.vvp"
+      ]
+    }
+  }
+}

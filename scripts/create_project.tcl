@@ -12,12 +12,12 @@ proc path_is_within {root_name path_name} {
                 [string first "${root_key}/" $path_key] == 0}]
 }
 
-proc collect_sv_keys {directory_name} {
+proc collect_hdl_keys {directory_name} {
   set result {}
   foreach entry [glob -nocomplain -directory $directory_name *] {
     if {[file isdirectory $entry]} {
-      set result [concat $result [collect_sv_keys $entry]]
-    } elseif {[string equal -nocase [file extension $entry] ".sv"]} {
+      set result [concat $result [collect_hdl_keys $entry]]
+    } elseif {[string tolower [file extension $entry]] in {.v .sv}} {
       lappend result [canonical_path_key $entry]
     }
   }
@@ -104,8 +104,16 @@ while {[gets $manifest_fh line] >= 0} {
     lappend missing_files $relative_path
   }
   if {[string match "rtl/*" $relative_path]} {
+    if {![string equal -nocase [file extension $relative_path] ".v"]} {
+      close $manifest_fh
+      error "filelist.f:$line_number RTL must be Verilog (.v): $relative_path"
+    }
     lappend rtl_files $absolute_path
   } elseif {[string match "tb/*" $relative_path]} {
+    if {[string tolower [file extension $relative_path]] ni {.v .sv}} {
+      close $manifest_fh
+      error "filelist.f:$line_number is not a Verilog/SystemVerilog source: $relative_path"
+    }
     lappend tb_files $absolute_path
   } else {
     close $manifest_fh
@@ -123,25 +131,26 @@ if {[llength $missing_files] != 0} {
 # Fail closed when a new source is added to rtl/ or tb/ without updating the
 # manifest, or when the manifest retains a stale source.
 set tree_keys [lsort -unique [concat \
-  [collect_sv_keys [file join $root_dir rtl]] \
-  [collect_sv_keys [file join $root_dir tb]]]]
+  [collect_hdl_keys [file join $root_dir rtl]] \
+  [collect_hdl_keys [file join $root_dir tb]]]]
 set manifest_keys [lsort -unique $manifest_keys]
 set unlisted_sources [list_difference $tree_keys $manifest_keys]
 set stale_sources    [list_difference $manifest_keys $tree_keys]
 if {[llength $unlisted_sources] != 0} {
-  error "SystemVerilog sources missing from filelist.f: [join $unlisted_sources {, }]"
+  error "Verilog/SystemVerilog sources missing from filelist.f: [join $unlisted_sources {, }]"
 }
 if {[llength $stale_sources] != 0} {
-  error "Stale SystemVerilog paths in filelist.f: [join $stale_sources {, }]"
+  error "Stale Verilog/SystemVerilog paths in filelist.f: [join $stale_sources {, }]"
 }
 
 # Explicit dependency assertions make accidental manifest reordering visible.
-require_before $manifest_rel rtl/pkg/pcie_gen12_phy_pkg.sv rtl/pkg/pcie_gen12_phy_timing_pkg.sv
-require_before $manifest_rel rtl/pkg/pcie_gen12_phy_pkg.sv rtl/gt/gty_behavioral_model.sv
-require_before $manifest_rel rtl/gt/gty_behavioral_model.sv rtl/gt/pcie_gty_adapter_x1.sv
-require_before $manifest_rel rtl/pkg/pcie_gen12_phy_pkg.sv tb/tb_common/phy_tb_pkg.sv
+require_before $manifest_rel tb/tb_common/pcie_gen12_phy_pkg.sv tb/tb_common/pcie_gen12_phy_timing_pkg.sv
+require_before $manifest_rel rtl/gt/gty_behavioral_model.v rtl/gt/pcie_gty_adapter_x1.v
+require_before $manifest_rel tb/tb_common/pcie_gen12_phy_pkg.sv tb/golden/golden_scrambler.sv
+require_before $manifest_rel tb/tb_common/pcie_gen12_phy_pkg.sv tb/golden/golden_ordered_set.sv
+require_before $manifest_rel tb/tb_common/pcie_gen12_phy_pkg.sv tb/tb_common/phy_tb_pkg.sv
 require_before $manifest_rel tb/tb_common/phy_tb_pkg.sv tb/tb_PHY_V_001/tb_PHY_V_001.sv
-require_before $manifest_rel rtl/pcie_gen12_phy_x1_rp.sv tb/tb_common/phy_top_harness.sv
+require_before $manifest_rel rtl/pcie_gen12_phy_x1_rp.v tb/tb_common/phy_top_harness.sv
 foreach dependent_test {009 010 011 012} {
   require_before $manifest_rel \
     tb/tb_PHY_V_008/tb_PHY_V_008.sv \
@@ -153,6 +162,8 @@ for {set test_number 1} {$test_number <= 15} {incr test_number} {
   if {[lsearch -exact $manifest_rel $test_path] < 0} {
     error "Required testbench source is absent from filelist.f: $test_path"
   }
+  require_before $manifest_rel tb/tb_common/pcie_gen12_phy_pkg.sv $test_path
+  require_before $manifest_rel tb/tb_common/pcie_gen12_phy_timing_pkg.sv $test_path
 }
 
 if {![info exists ::env(PCIE_FPGA_PART)] || $::env(PCIE_FPGA_PART) eq ""} {
@@ -174,13 +185,13 @@ foreach source_path $rtl_files {
   if {[llength $source_object] != 1} {
     error "Expected exactly one sources_1 object for $source_path"
   }
-  set_property file_type SystemVerilog $source_object
+  set_property file_type Verilog $source_object
 }
 
-set behavioral_model [file normalize [file join $root_dir rtl gt gty_behavioral_model.sv]]
+set behavioral_model [file normalize [file join $root_dir rtl gt gty_behavioral_model.v]]
 set behavioral_object [get_files -quiet -of_objects [get_filesets sources_1] $behavioral_model]
 if {[llength $behavioral_object] != 1} {
-  error "Expected exactly one gty_behavioral_model.sv source object"
+  error "Expected exactly one gty_behavioral_model.v source object"
 }
 set_property used_in_synthesis false $behavioral_object
 set_property used_in_simulation true $behavioral_object

@@ -1,6 +1,6 @@
 # GTYE4 / GT Wizard freeze checklist
 
-`pcie_gty_adapter_x1.sv` intentionally keeps the normalized §4.6 boundary stable while the board-specific GT Wizard result is unavailable. Do not expose native GT ports above this adapter.
+`pcie_gty_adapter_x1.v` intentionally keeps the normalized §4.6 boundary stable while the board-specific GT Wizard result is unavailable. Do not expose native GT ports above this adapter.
 
 Before synthesis/implementation, generate a single-lane UltraScale+ GTY customization for the exact XCVU9P part, package, speed grade, GT quad/channel, and board REFCLK. Copy the generated primitive attributes, legal constant tie-offs, clock helper, reset helper, and DRP/rate sequence into the marked `TODO(Wizard)` integration points. Do not infer them from another device or Vivado release.
 

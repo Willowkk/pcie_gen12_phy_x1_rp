@@ -1,0 +1,206 @@
+{
+  "ok": true,
+  "baseline": "156401f995a20db097c4df4cd8c8c4ff0bf0c1a2",
+  "pyslang_version": "11.0.0",
+  "manifest_sources": 44,
+  "rtl_files": 14,
+  "compatibility_packages_byte_identical": true,
+  "rtl_lexical_gate": {
+    "passed": true,
+    "files_checked": 14,
+    "allowed_system_tasks_functions": [
+      "$clog2",
+      "$display",
+      "$finish",
+      "$stop",
+      "$time"
+    ],
+    "used_system_tasks_functions": [
+      "$clog2",
+      "$display",
+      "$stop",
+      "$time"
+    ],
+    "sv_keyword_syntax_time_literal_checks": true
+  },
+  "scope": "Static compilation and known-parameter interface checks; no formal equivalence",
+  "parameter_note": "SV two-state parameter types become four-state Verilog vectors; known values are compared",
+  "configurations": {
+    "GT_BEHAV_MODEL=0,SYNTHESIS=0": {
+      "strict_verilog_rtl": {
+        "source_count": 14,
+        "parse_diagnostics": 0,
+        "unexpected_errors": [],
+        "allowed_vendor_modules": [
+          "BUFG_GT",
+          "GTYE4_CHANNEL",
+          "IBUFDS_GTE4"
+        ],
+        "non_error_diagnostics": 100,
+        "rtl_instance_count": 29,
+        "rtl_module_count": 17
+      },
+      "mixed_sv_testbenches": {
+        "source_count": 44,
+        "parse_diagnostics": 0,
+        "unexpected_errors": [],
+        "allowed_vendor_modules": [
+          "BUFG_GT",
+          "GTYE4_CHANNEL",
+          "IBUFDS_GTE4"
+        ],
+        "non_error_diagnostics": 155,
+        "rtl_instance_count": 80,
+        "rtl_module_count": 17
+      },
+      "baseline": {
+        "source_count": 44,
+        "parse_diagnostics": 0,
+        "unexpected_errors": [],
+        "allowed_vendor_modules": [
+          "BUFG_GT",
+          "GTYE4_CHANNEL",
+          "IBUFDS_GTE4"
+        ],
+        "non_error_diagnostics": 227,
+        "rtl_instance_count": 80,
+        "rtl_module_count": 17
+      },
+      "comparison": {
+        "interface_differences": 0,
+        "known_parameter_differences": 0,
+        "compared_parameter_occurrences": 327,
+        "parameter_state_domain_changes": 291,
+        "top_ports": 69,
+        "top_inputs": 32,
+        "top_outputs": 37
+      }
+    },
+    "GT_BEHAV_MODEL=0,SYNTHESIS=1": {
+      "strict_verilog_rtl": {
+        "source_count": 14,
+        "parse_diagnostics": 0,
+        "unexpected_errors": [],
+        "allowed_vendor_modules": [
+          "BUFG_GT",
+          "GTYE4_CHANNEL",
+          "IBUFDS_GTE4"
+        ],
+        "non_error_diagnostics": 100,
+        "rtl_instance_count": 29,
+        "rtl_module_count": 17
+      },
+      "mixed_sv_testbenches": {
+        "source_count": 44,
+        "parse_diagnostics": 0,
+        "unexpected_errors": [],
+        "allowed_vendor_modules": [
+          "BUFG_GT",
+          "GTYE4_CHANNEL",
+          "IBUFDS_GTE4"
+        ],
+        "non_error_diagnostics": 155,
+        "rtl_instance_count": 80,
+        "rtl_module_count": 17
+      },
+      "baseline": {
+        "source_count": 44,
+        "parse_diagnostics": 0,
+        "unexpected_errors": [],
+        "allowed_vendor_modules": [
+          "BUFG_GT",
+          "GTYE4_CHANNEL",
+          "IBUFDS_GTE4"
+        ],
+        "non_error_diagnostics": 227,
+        "rtl_instance_count": 80,
+        "rtl_module_count": 17
+      },
+      "comparison": {
+        "interface_differences": 0,
+        "known_parameter_differences": 0,
+        "compared_parameter_occurrences": 327,
+        "parameter_state_domain_changes": 291,
+        "top_ports": 69,
+        "top_inputs": 32,
+        "top_outputs": 37
+      }
+    },
+    "GT_BEHAV_MODEL=1,SYNTHESIS=0": {
+      "strict_verilog_rtl": {
+        "source_count": 14,
+        "parse_diagnostics": 0,
+        "unexpected_errors": [],
+        "allowed_vendor_modules": [],
+        "non_error_diagnostics": 100,
+        "rtl_instance_count": 29,
+        "rtl_module_count": 17
+      },
+      "mixed_sv_testbenches": {
+        "source_count": 44,
+        "parse_diagnostics": 0,
+        "unexpected_errors": [],
+        "allowed_vendor_modules": [],
+        "non_error_diagnostics": 155,
+        "rtl_instance_count": 82,
+        "rtl_module_count": 17
+      },
+      "baseline": {
+        "source_count": 44,
+        "parse_diagnostics": 0,
+        "unexpected_errors": [],
+        "allowed_vendor_modules": [],
+        "non_error_diagnostics": 227,
+        "rtl_instance_count": 82,
+        "rtl_module_count": 17
+      },
+      "comparison": {
+        "interface_differences": 0,
+        "known_parameter_differences": 0,
+        "compared_parameter_occurrences": 371,
+        "parameter_state_domain_changes": 333,
+        "top_ports": 69,
+        "top_inputs": 32,
+        "top_outputs": 37
+      }
+    },
+    "GT_BEHAV_MODEL=1,SYNTHESIS=1": {
+      "strict_verilog_rtl": {
+        "source_count": 14,
+        "parse_diagnostics": 0,
+        "unexpected_errors": [],
+        "allowed_vendor_modules": [],
+        "non_error_diagnostics": 100,
+        "rtl_instance_count": 29,
+        "rtl_module_count": 17
+      },
+      "mixed_sv_testbenches": {
+        "source_count": 44,
+        "parse_diagnostics": 0,
+        "unexpected_errors": [],
+        "allowed_vendor_modules": [],
+        "non_error_diagnostics": 155,
+        "rtl_instance_count": 82,
+        "rtl_module_count": 17
+      },
+      "baseline": {
+        "source_count": 44,
+        "parse_diagnostics": 0,
+        "unexpected_errors": [],
+        "allowed_vendor_modules": [],
+        "non_error_diagnostics": 227,
+        "rtl_instance_count": 82,
+        "rtl_module_count": 17
+      },
+      "comparison": {
+        "interface_differences": 0,
+        "known_parameter_differences": 0,
+        "compared_parameter_occurrences": 371,
+        "parameter_state_domain_changes": 333,
+        "top_ports": 69,
+        "top_inputs": 32,
+        "top_outputs": 37
+      }
+    }
+  }
+}
